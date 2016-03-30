@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">MyLocation</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="insert">insert</string>
+    <string name="empty">No location record.</string>
+    <string name="title_activity_insert_location">InsertLocationActivity</string>
+    <string name="desc">Description</string>
+    <string name="save">Save</string>
+    <string name="name">Name</string>
+    <string name="insert_route">http://bait2073.comli.com.insert_route.php</string>
+    <string name="insert_route_detail">http://bait2073.comli.com.insert_route_detail.php</string>
+    <string name="title_activity_save_route">SaveRouteActivity</string>
+    <string name="id">ID</string>
+</resources>
