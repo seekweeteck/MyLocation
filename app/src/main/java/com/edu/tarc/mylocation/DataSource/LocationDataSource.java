@@ -51,13 +51,13 @@ public class LocationDataSource {
     }
 
     public List<LocationPoint> getAllLocations(){
-        List<LocationPoint> records = new ArrayList<LocationPoint>();
+        List<LocationPoint> records = new ArrayList<>();
         Cursor cursor = database.query(LocationContract.Point.TABLE_NAME, allColumn , null,
                 null, null, null, null);
         cursor.moveToFirst();
         while(!cursor.isAfterLast()){
             LocationPoint locationRecord = new LocationPoint();
-            locationRecord.setId(cursor.getInt(0));
+            locationRecord.setId(cursor.getString(0));
             locationRecord.setLatitude(cursor.getFloat(1));
             locationRecord.setLongitude(cursor.getFloat(2));
             locationRecord.setName(cursor.getString(3));

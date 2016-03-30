@@ -4,7 +4,7 @@ package com.edu.tarc.mylocation.DataClass;
  * Created by Tarc on 3/14/2016.
  */
 public class LocationPoint {
-    private int id;
+    private String id;
     private double latitude;
     private double longitude;
     private String name;
@@ -18,11 +18,11 @@ public class LocationPoint {
         this.name = name;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

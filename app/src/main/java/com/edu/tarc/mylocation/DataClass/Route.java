@@ -4,17 +4,17 @@ package com.edu.tarc.mylocation.DataClass;
  * Created by TARC on 3/30/2016.
  */
 public class Route {
-    int ID;
+    String ID;
     String Name;
 
     public Route() {
     }
 
-    public int getID() {
+    public String getID() {
         return ID;
     }
 
-    public void setID(int ID) {
+    public void setID(String ID) {
         this.ID = ID;
     }
 

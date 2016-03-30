@@ -26,5 +26,5 @@
         android:layout_height="wrap_content"
         android:text="@string/save"
         android:id="@+id/buttonSave"
-        android:onClick="saveLocation" />
+        android:onClick="saveRecord" />
 </LinearLayout>

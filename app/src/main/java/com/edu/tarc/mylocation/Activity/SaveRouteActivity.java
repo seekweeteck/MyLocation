@@ -14,10 +14,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.edu.tarc.mylocation.DataClass.LocationPoint;
 import com.edu.tarc.mylocation.DataClass.Route;
+import com.edu.tarc.mylocation.DataSource.LocationDataSource;
 import com.edu.tarc.mylocation.R;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SaveRouteActivity extends AppCompatActivity {
@@ -36,18 +39,36 @@ public class SaveRouteActivity extends AppCompatActivity {
 
         Route route = new Route();
 
-        route.setID(Integer.getInteger(editTextID.getText().toString()));
+        route.setID(editTextID.getText().toString());
         route.setName(editTextName.getText().toString());
 
         try {
             String url = getApplicationContext().getString(R.string.insert_route);
-            makeServiceCall(this, url , route);
+            insertRoute(this, url, route);
+
+
+            LocationDataSource dataSource;
+            dataSource = new LocationDataSource(this);
+            dataSource.open();
+            final List<LocationPoint> locationList = dataSource.getAllLocations();
+
+            if(locationList.isEmpty()){
+                Toast.makeText(getApplicationContext(),"No location record.", Toast.LENGTH_SHORT).show();
+            }else{
+                String url2 = getApplicationContext().getString(R.string.insert_route_detail);
+                for (LocationPoint locationPoint:locationList
+                     ) {
+                    locationPoint.setId(route.getID());
+                    insertRouteDetails(this, url2, locationPoint);
+                }
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
-    public void makeServiceCall(Context context, String url, final Route route){
+    public void insertRoute(Context context, String url, final Route route){
         //mPostCommentResponse.requestStarted();
         RequestQueue queue = Volley.newRequestQueue(context);
 
@@ -59,7 +80,7 @@ public class SaveRouteActivity extends AppCompatActivity {
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            Toast.makeText(getApplicationContext(), "Record saved. " + response, Toast.LENGTH_LONG).show();
+                            //Toast.makeText(getApplicationContext(), "Record saved. " + response, Toast.LENGTH_LONG).show();
                             finish();
                         }
                     },
@@ -74,6 +95,50 @@ public class SaveRouteActivity extends AppCompatActivity {
                     Map<String, String> params = new HashMap<>();
                     params.put("id", String.valueOf(route.getID()));
                     params.put("name", route.getName());
+                    return params;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("Content-Type", "application/x-www-form-urlencoded");
+                    return params;
+                }
+            };
+            queue.add(postRequest);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void insertRouteDetails(Context context, String url, final LocationPoint point){
+        //mPostCommentResponse.requestStarted();
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        //Send data
+        try {
+            StringRequest postRequest = new StringRequest(
+                    Request.Method.POST,
+                    url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            //Toast.makeText(getApplicationContext(), "Record saved. " + response, Toast.LENGTH_LONG).show();
+                            finish();
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getApplicationContext(), "Error. " + error.toString(), Toast.LENGTH_LONG).show();
+                        }
+                    }){
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("id", point.getId());
+                    params.put("name", point.getName());
+                    params.put("coordinate",  point.getLatitude() + "," + point.getLongitude());
                     return params;
                 }
 
