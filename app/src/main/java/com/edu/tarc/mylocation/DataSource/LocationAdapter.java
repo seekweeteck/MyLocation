@@ -37,7 +37,9 @@ public class LocationAdapter extends ArrayAdapter<LocationPoint> {
 
         textViewName.setText(locationPointList.get(position).getName());
         textViewLatLon.setText("Lat:" +locationPointList.get(position).getLatitude() +
-                " Lon:" + locationPointList.get(position).getLongitude());
+                "\nLon:" + locationPointList.get(position).getLongitude());
         return rowView;
     }
+
+
 }

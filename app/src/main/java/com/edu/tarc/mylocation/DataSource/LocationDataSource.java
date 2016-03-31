@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.edu.tarc.mylocation.DataClass.LocationPoint;
 
@@ -35,9 +36,14 @@ public class LocationDataSource {
     }
 
     public void deleteLocation(){
-        database= dbHelper.getWritableDatabase();
-        database.execSQL("DELETE * FROM " + LocationContract.Point.TABLE_NAME);
-        database.close();
+        try{
+            database= dbHelper.getWritableDatabase();
+            database.execSQL("DELETE FROM " + LocationContract.Point.TABLE_NAME);
+            database.close();
+        }catch (Exception e){
+            Log.d("Delete", e.getMessage());
+        }
+
     }
 
     public void insertLocation(LocationPoint point){

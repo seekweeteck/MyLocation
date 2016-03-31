@@ -9,8 +9,14 @@
     <string name="desc">Description</string>
     <string name="save">Save</string>
     <string name="name">Name</string>
+    <string name="delete">Delete</string>
+    <string name="locate">Locate</string>
+    <string name="alert_dialog_ok">OK</string>
+    <string name="alert_dialog_cancel">Cancel</string>
     <string name="insert_route">http://bait2073.comli.com/insert_route.php</string>
     <string name="insert_route_detail">http://bait2073.comli.com/insert_route_detail.php</string>
     <string name="title_activity_save_route">SaveRouteActivity</string>
     <string name="id">ID</string>
+    <string name="current">Current Location:</string>
+    <string name="near">Near to:</string>
 </resources>

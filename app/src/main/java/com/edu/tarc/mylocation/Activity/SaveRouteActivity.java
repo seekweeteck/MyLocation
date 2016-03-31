@@ -34,8 +34,8 @@ public class SaveRouteActivity extends AppCompatActivity {
     public void saveRecord(View v) {
         EditText editTextID, editTextName;
 
-        editTextID = (EditText) findViewById(R.id.editTextID);
-        editTextName = (EditText) findViewById(R.id.editTextName);
+        editTextID = (EditText) findViewById(R.id.editTextLocationID);
+        editTextName = (EditText) findViewById(R.id.editTextLocationName);
 
         Route route = new Route();
 
@@ -62,7 +62,7 @@ public class SaveRouteActivity extends AppCompatActivity {
                     insertRouteDetails(this, url2, locationPoint);
                 }
             }
-
+            dataSource.close();
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();

@@ -10,7 +10,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editTextID"
+        android:id="@+id/editTextLocationID"
         android:hint="@string/id" />
 
     <EditText
@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
-        android:id="@+id/editTextName"
+        android:id="@+id/editTextLocationName"
         android:hint="@string/name" />
 
     <Button

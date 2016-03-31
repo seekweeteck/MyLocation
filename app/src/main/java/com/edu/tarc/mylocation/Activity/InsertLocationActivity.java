@@ -19,7 +19,7 @@ import com.edu.tarc.mylocation.DataSource.LocationDataSource;
 import com.edu.tarc.mylocation.R;
 
 public class InsertLocationActivity extends AppCompatActivity implements LocationListener {
-    protected LocationManager locationManager;
+    protected LocationManager locationManagerGPS, locationManagerNetwork;
     TextView textViewLat, textViewLon;
     EditText editTextName, editTextDesc;
 
@@ -32,8 +32,10 @@ public class InsertLocationActivity extends AppCompatActivity implements Locatio
         textViewLon = (TextView)findViewById(R.id.textViewLon);
         editTextName = (EditText)findViewById(R.id.editTextName);
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        locationManagerGPS = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManagerNetwork = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -43,11 +45,9 @@ public class InsertLocationActivity extends AppCompatActivity implements Locatio
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        locationManager =
-                (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                0, 0, (LocationListener) this);
 
+        locationManagerGPS.requestLocationUpdates(LocationManager.GPS_PROVIDER,0, 0, this);
+        locationManagerNetwork.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,0, 0, this);
     }
 
     public void saveLocation(View v){
@@ -80,5 +80,11 @@ public class InsertLocationActivity extends AppCompatActivity implements Locatio
     @Override
     public void onProviderDisabled(String s) {
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        locationManagerGPS.removeUpdates(this);
     }
 }
