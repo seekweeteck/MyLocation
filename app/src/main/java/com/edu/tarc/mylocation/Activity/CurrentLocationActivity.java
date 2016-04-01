@@ -19,7 +19,7 @@ import com.edu.tarc.mylocation.R;
 public class CurrentLocationActivity extends AppCompatActivity implements LocationListener{
     protected LocationManager locationManager2;
     LocationEngine locationEngine;
-    TextView textViewCurrent, textViewNear;
+    TextView textViewCurrent, textViewNear, textViewSelected;
     LocationPoint locationPoint, locationCurrent;
     int size=-1;
 
@@ -28,9 +28,16 @@ public class CurrentLocationActivity extends AppCompatActivity implements Locati
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_location);
 
-        size = MainActivity.index;
+        textViewCurrent = (TextView) findViewById(R.id.textViewCurrentLocation);
+        textViewNear = (TextView)findViewById(R.id.textViewNear);
+        textViewSelected = (TextView)findViewById(R.id.textViewSelected);
+
+        size = MainActivity.index; //User has selected a location
         if(size>=0){
             locationPoint = MainActivity.locationList.get(size);
+            textViewSelected.setText("Selected\nLocation:" + locationPoint.getName() +
+                    "\nLat:" + locationPoint.getLatitude() +
+                    "\nLon:" + locationPoint.getLongitude());
         }else{
             locationPoint = new LocationPoint();
             locationPoint.setId("0");
@@ -41,8 +48,7 @@ public class CurrentLocationActivity extends AppCompatActivity implements Locati
         locationCurrent = new LocationPoint();
         locationEngine = new LocationEngine();
 
-        textViewCurrent = (TextView) findViewById(R.id.textViewCurrentLocation);
-        textViewNear = (TextView)findViewById(R.id.textViewNear);
+
 
         locationManager2 =
                 (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -58,7 +64,7 @@ public class CurrentLocationActivity extends AppCompatActivity implements Locati
         }
         try{
             locationManager2.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                    60000, 1, this);
+                    0, 0, this);
         }catch (Exception e){
             Toast.makeText(getApplicationContext(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
@@ -74,9 +80,12 @@ public class CurrentLocationActivity extends AppCompatActivity implements Locati
 
         distance = locationEngine.getDistance( locationCurrent.getLatitude(),  locationCurrent.getLongitude(),
                 locationPoint.getLatitude(),locationPoint.getLongitude());
-        textViewCurrent.setText("Selected Location :"+locationPoint.getName());
 
-        int i = findNearest(locationCurrent);
+       // location.distanceBetween(location.getLatitude() , location.getLongitude(), locationCurrent.getLatitude(), locationCurrent.getLongitude(), distance);
+        textViewCurrent.setText("Current Location \nLat:"+ locationCurrent.getLatitude() +
+                "\nLon:" + locationCurrent.getLongitude());
+
+        int i = findNearest(location);
 
         if(i>= 0){
             textViewNear.setText("Nearest point is:" + MainActivity.locationList.get(i).getName());
@@ -86,17 +95,27 @@ public class CurrentLocationActivity extends AppCompatActivity implements Locati
 
     }
 
-    private int findNearest(LocationPoint current){
+    private int findNearest(Location current){
         int i=-1;
-        double difference=0.0;
+        //float[] difference={0};
+        double difference;
         for (int index=0; index < MainActivity.locationList.size()-1; index ++) {
             LocationPoint locationSearch = MainActivity.locationList.get(index);
             difference = locationEngine.getDistance(current.getLatitude(), current.getLongitude(), locationSearch.getLatitude(), locationSearch.getLongitude());
-            if(difference <= 0.02){
+            if(difference/10000 <= 0.01){
                 i = index;
                 break;
             }
         }
+       /* for (int index=0; index < MainActivity.locationList.size()-1; index ++) {
+            LocationPoint locationSearch = MainActivity.locationList.get(index);
+            current.distanceBetween(current.getLatitude(), current.getLongitude(), locationSearch.getLatitude(), locationSearch.getLongitude(), difference);
+            if(difference[0] <= 0.01){
+                i = index;
+                break;
+            }
+        }*/
+
         return i;
     }
     @Override

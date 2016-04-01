@@ -34,8 +34,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         listViewLocation = (ListView)findViewById(R.id.listViewLocation);
         listViewLocation.setOnItemClickListener(this);
 
-        try{
+    }
 
+    private void updateLocationList() {
+        try{
             dataSource = new LocationDataSource(this);
             dataSource.open();
             locationList = dataSource.getAllLocations();
@@ -91,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     locationDataSource.deleteLocation();
                     locationDataSource.close();
                     Toast.makeText(MainActivity.this,"Record(s) deleted.",Toast.LENGTH_LONG).show();
-                    listViewLocation.removeAllViews();
+                    listViewLocation.setAdapter(null);
                 }
             });
 
@@ -112,9 +114,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     protected void onResume() {
-        dataSource.open();
         super.onResume();
-        listViewLocation.refreshDrawableState();
+        updateLocationList();
     }
 
     @Override

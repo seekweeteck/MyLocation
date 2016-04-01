@@ -87,4 +87,10 @@ public class InsertLocationActivity extends AppCompatActivity implements Locatio
         super.onPause();
         locationManagerGPS.removeUpdates(this);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+    }
 }
