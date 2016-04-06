@@ -22,6 +22,7 @@ public class CurrentLocationActivity extends AppCompatActivity implements Locati
     TextView textViewCurrent, textViewNear, textViewSelected;
     LocationPoint locationPoint, locationCurrent;
     int size=-1;
+    double MIN_DISTANCE = 0.02;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +49,13 @@ public class CurrentLocationActivity extends AppCompatActivity implements Locati
         locationCurrent = new LocationPoint();
         locationEngine = new LocationEngine();
 
-
-
         locationManager2 =
                 (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        requestLocation();
+
+    }
+
+    private void requestLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -64,31 +68,29 @@ public class CurrentLocationActivity extends AppCompatActivity implements Locati
         }
         try{
             locationManager2.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                    0, 0, this);
+                    5000, 1, this);
         }catch (Exception e){
             Toast.makeText(getApplicationContext(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
-
     }
 
     @Override
     public void onLocationChanged(Location location) {
+        //float distance;
         double distance;
+        textViewCurrent.setText("Current Location \nLat:" + location.getLatitude() +
+                "\nLon:" + location.getLongitude());
 
-        locationCurrent.setLatitude(location.getLatitude());
-        locationCurrent.setLongitude(location.getLongitude());
+        //distance = location.distanceTo(locationPoint.getPoint());
+        LocationEngine locationEngine = new LocationEngine();
 
-        distance = locationEngine.getDistance( locationCurrent.getLatitude(),  locationCurrent.getLongitude(),
-                locationPoint.getLatitude(),locationPoint.getLongitude());
+        distance = locationEngine.getDistance(location.getLatitude(), location.getLongitude(), locationPoint.getLatitude(), locationPoint.getLongitude());
 
-       // location.distanceBetween(location.getLatitude() , location.getLongitude(), locationCurrent.getLatitude(), locationCurrent.getLongitude(), distance);
-        textViewCurrent.setText("Current Location \nLat:"+ locationCurrent.getLatitude() +
-                "\nLon:" + locationCurrent.getLongitude());
 
         int i = findNearest(location);
 
         if(i>= 0){
-            textViewNear.setText("Nearest point is:" + MainActivity.locationList.get(i).getName());
+            textViewNear.setText("Nearest point is:" + MainActivity.locationList.get(i).getName() + "\nDistance:" + distance);
         }else{
             textViewNear.setText("Distance from the selected location :" + distance + " Kilometers");
         }
@@ -97,14 +99,19 @@ public class CurrentLocationActivity extends AppCompatActivity implements Locati
 
     private int findNearest(Location current){
         int i=-1;
-        //float[] difference={0};
-        double difference;
+        double shortest=MIN_DISTANCE;
+        double distance;
+        LocationEngine locationEngine = new LocationEngine();
+
         for (int index=0; index < MainActivity.locationList.size()-1; index ++) {
             LocationPoint locationSearch = MainActivity.locationList.get(index);
-            difference = locationEngine.getDistance(current.getLatitude(), current.getLongitude(), locationSearch.getLatitude(), locationSearch.getLongitude());
-            if(difference/10000 <= 0.01){
-                i = index;
-                break;
+
+            distance = locationEngine.getDistance(current.getLatitude(), current.getLongitude(), locationSearch.getLatitude(), locationSearch.getLongitude());
+            if(distance <= MIN_DISTANCE){
+                if(distance <= shortest){
+                    shortest = distance;
+                    i = index;
+                }
             }
         }
        /* for (int index=0; index < MainActivity.locationList.size()-1; index ++) {

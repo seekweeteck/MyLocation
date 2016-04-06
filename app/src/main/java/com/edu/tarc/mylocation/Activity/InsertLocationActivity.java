@@ -19,6 +19,7 @@ import com.edu.tarc.mylocation.DataSource.LocationDataSource;
 import com.edu.tarc.mylocation.R;
 
 public class InsertLocationActivity extends AppCompatActivity implements LocationListener {
+    private static final int MY_PERMISSIONS_REQUEST_LOCATION = 100;
     protected LocationManager locationManagerGPS, locationManagerNetwork;
     TextView textViewLat, textViewLon;
     EditText editTextName, editTextDesc;
@@ -43,11 +44,31 @@ public class InsertLocationActivity extends AppCompatActivity implements Locatio
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+                // Show an expanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_LOCATION);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
             return;
         }
 
-        locationManagerGPS.requestLocationUpdates(LocationManager.GPS_PROVIDER,0, 0, this);
-        locationManagerNetwork.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,0, 0, this);
+        locationManagerGPS.requestLocationUpdates(LocationManager.GPS_PROVIDER,60000, 1, this);
+        locationManagerNetwork.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,60000, 1, this);
     }
 
     public void saveLocation(View v){
