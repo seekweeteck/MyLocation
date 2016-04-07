@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.edu.tarc.mylocation.DataClass.ConstantValues;
 import com.edu.tarc.mylocation.DataClass.LocationPoint;
 import com.edu.tarc.mylocation.DataSource.LocationDataSource;
 import com.edu.tarc.mylocation.R;
@@ -67,8 +68,8 @@ public class InsertLocationActivity extends AppCompatActivity implements Locatio
             return;
         }
 
-        locationManagerGPS.requestLocationUpdates(LocationManager.GPS_PROVIDER,60000, 1, this);
-        locationManagerNetwork.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,60000, 1, this);
+        locationManagerGPS.requestLocationUpdates(LocationManager.GPS_PROVIDER, ConstantValues.UPDATE_INTERVAL, ConstantValues.UPDATE_DISTANCE, this);
+        locationManagerNetwork.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,ConstantValues.UPDATE_INTERVAL, ConstantValues.UPDATE_DISTANCE,this);
     }
 
     public void saveLocation(View v){

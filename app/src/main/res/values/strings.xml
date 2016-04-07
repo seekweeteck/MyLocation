@@ -19,4 +19,6 @@
     <string name="id">ID</string>
     <string name="current">Current Location:</string>
     <string name="near">Near to:</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="show_map">Show Map</string>
 </resources>

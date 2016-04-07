@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.edu.tarc.mylocation.DataClass.ConstantValues;
 import com.edu.tarc.mylocation.DataClass.LocationPoint;
 import com.edu.tarc.mylocation.LocationEngine.LocationEngine;
 import com.edu.tarc.mylocation.R;
@@ -22,7 +23,7 @@ public class CurrentLocationActivity extends AppCompatActivity implements Locati
     TextView textViewCurrent, textViewNear, textViewSelected;
     LocationPoint locationPoint, locationCurrent;
     int size=-1;
-    double MIN_DISTANCE = 0.02;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +69,7 @@ public class CurrentLocationActivity extends AppCompatActivity implements Locati
         }
         try{
             locationManager2.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                    5000, 1, this);
+                    ConstantValues.UPDATE_INTERVAL, ConstantValues.UPDATE_DISTANCE, this);
         }catch (Exception e){
             Toast.makeText(getApplicationContext(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
@@ -99,7 +100,7 @@ public class CurrentLocationActivity extends AppCompatActivity implements Locati
 
     private int findNearest(Location current){
         int i=-1;
-        double shortest=MIN_DISTANCE;
+        double shortest=ConstantValues.UPDATE_DISTANCE;
         double distance;
         LocationEngine locationEngine = new LocationEngine();
 
@@ -107,22 +108,13 @@ public class CurrentLocationActivity extends AppCompatActivity implements Locati
             LocationPoint locationSearch = MainActivity.locationList.get(index);
 
             distance = locationEngine.getDistance(current.getLatitude(), current.getLongitude(), locationSearch.getLatitude(), locationSearch.getLongitude());
-            if(distance <= MIN_DISTANCE){
-                if(distance <= shortest){
+            if(ConstantValues.UPDATE_DISTANCE >= distance){
+                if(shortest >= distance){
                     shortest = distance;
                     i = index;
                 }
             }
         }
-       /* for (int index=0; index < MainActivity.locationList.size()-1; index ++) {
-            LocationPoint locationSearch = MainActivity.locationList.get(index);
-            current.distanceBetween(current.getLatitude(), current.getLongitude(), locationSearch.getLatitude(), locationSearch.getLongitude(), difference);
-            if(difference[0] <= 0.01){
-                i = index;
-                break;
-            }
-        }*/
-
         return i;
     }
     @Override
