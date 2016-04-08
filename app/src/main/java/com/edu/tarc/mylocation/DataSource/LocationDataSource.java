@@ -58,8 +58,15 @@ public class LocationDataSource {
 
     public List<LocationPoint> getAllLocations(){
         List<LocationPoint> records = new ArrayList<>();
-        Cursor cursor = database.query(LocationContract.Point.TABLE_NAME, allColumn , null,
-                null, null, null, null);
+        Cursor cursor = database.query(
+                LocationContract.Point.TABLE_NAME,  //Table
+                allColumn ,                         //Columns
+                null,                               //Selection
+                null,                               //Selection Args
+                null,                               //Group By
+                null,                               //Having
+                LocationContract.Point.COLUMN_ID, //Order By
+                null);                              //Limit
         cursor.moveToFirst();
         while(!cursor.isAfterLast()){
             LocationPoint locationRecord = new LocationPoint();

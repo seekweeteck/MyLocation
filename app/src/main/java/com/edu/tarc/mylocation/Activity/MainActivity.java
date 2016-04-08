@@ -106,8 +106,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
             AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
-        }else if(id == R.id.action_map){
-            Intent intent = new Intent(this, MapsActivity.class);
+        }else if(id == R.id.action_bus){
+            Intent intent = new Intent(this, BusActivity.class);
             startActivity(intent);
         }
 

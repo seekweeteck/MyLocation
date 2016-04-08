@@ -22,8 +22,8 @@
         android:icon="@drawable/ic_action_delete"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_map"
-        android:title="@string/show_map"
+        android:id="@+id/action_bus"
+        android:title="@string/show_bus"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_settings"

@@ -55,15 +55,7 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
-        <activity
-            android:name=".Activity.MapsActivity"
-            android:label="@string/title_activity_maps"
-            android:parentActivityName=".Activity.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.edu.tarc.mylocation.Activity.MainActivity" />
-        </activity>
+        <activity android:name=".Activity.BusActivity"></activity>
     </application>
 
 </manifest>

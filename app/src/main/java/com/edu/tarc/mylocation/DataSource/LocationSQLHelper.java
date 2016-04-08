@@ -11,7 +11,7 @@ public class LocationSQLHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "location.db";
     private static final String SQL_CREATE = "CREATE TABLE " + LocationContract.Point.TABLE_NAME + "(" +
-            LocationContract.Point.COLUMN_ID + " INTEGER PRIMARY KEY, " +
+            LocationContract.Point.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             LocationContract.Point.COLUMN_LAT + " REAL, " +
             LocationContract.Point.COLUMN_LON +  " REAL, " +
             LocationContract.Point.COLUMN_NAME +  " TEXT)";

@@ -35,7 +35,7 @@ public class LocationAdapter extends ArrayAdapter<LocationPoint> {
         TextView textViewName = (TextView) rowView.findViewById(R.id.textViewName);
         TextView textViewLatLon = (TextView) rowView.findViewById(R.id.textViewLatLon);
 
-        textViewName.setText(locationPointList.get(position).getName());
+        textViewName.setText("ID:" + locationPointList.get(position).getId() + " Name:" + locationPointList.get(position).getName());
         textViewLatLon.setText("Lat:" +locationPointList.get(position).getLatitude() +
                 "\nLon:" + locationPointList.get(position).getLongitude());
         return rowView;

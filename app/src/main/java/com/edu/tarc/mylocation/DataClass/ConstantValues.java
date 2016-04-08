@@ -6,7 +6,7 @@ import android.app.Application;
  * Created by TARC on 4/7/2016.
  */
 public class ConstantValues extends Application{
-    public static long UPDATE_INTERVAL = 5000;
+    public static long UPDATE_INTERVAL = 2000;
     public static float UPDATE_DISTANCE = 5;
 
     private static ConstantValues constantValues;

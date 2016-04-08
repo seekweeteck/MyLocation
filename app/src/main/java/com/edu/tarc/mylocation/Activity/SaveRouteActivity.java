@@ -136,9 +136,9 @@ public class SaveRouteActivity extends AppCompatActivity {
                 @Override
                 protected Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<>();
-                    params.put("id", point.getId());
                     params.put("name", point.getName());
-                    params.put("coordinate",  point.getLatitude() + "," + point.getLongitude());
+                    params.put("lat",  String.valueOf(point.getLatitude()));
+                    params.put("lon",  String.valueOf(point.getLongitude()));
                     return params;
                 }
 

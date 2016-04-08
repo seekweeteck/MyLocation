@@ -11,6 +11,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +24,8 @@ public class InsertLocationActivity extends AppCompatActivity implements Locatio
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 100;
     protected LocationManager locationManagerGPS, locationManagerNetwork;
     TextView textViewLat, textViewLon;
-    EditText editTextName, editTextDesc;
+    EditText editTextName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +71,7 @@ public class InsertLocationActivity extends AppCompatActivity implements Locatio
         }
 
         locationManagerGPS.requestLocationUpdates(LocationManager.GPS_PROVIDER, ConstantValues.UPDATE_INTERVAL, ConstantValues.UPDATE_DISTANCE, this);
-        locationManagerNetwork.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,ConstantValues.UPDATE_INTERVAL, ConstantValues.UPDATE_DISTANCE,this);
+        locationManagerNetwork.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, ConstantValues.UPDATE_INTERVAL, ConstantValues.UPDATE_DISTANCE, this);
     }
 
     public void saveLocation(View v){
